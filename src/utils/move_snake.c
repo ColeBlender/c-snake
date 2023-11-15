@@ -2,12 +2,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void change_and_print(int snakeLength, Coordinate* snakeCoords);
+void change_and_print(int* snakeLength, Coordinate* snakeCoords, int appleX);
 void print(int i, Coordinate* snakeCoords);
 
-void move_snake(int xDir, int yDir, int snakeLength, int* gameOver,
-                Coordinate* snakeCoords) {
-  change_and_print(snakeLength, snakeCoords);
+void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
+                Coordinate* snakeCoords, Coordinate* appleCoords) {
+  if (snakeCoords[0].x == appleCoords->x &&
+      snakeCoords[0].y == appleCoords->y) {
+    appleCoords->x = -1;
+    *snakeLength = *snakeLength + 1;
+  }
+  change_and_print(snakeLength, snakeCoords, appleCoords->x);
   if (xDir == 1) {
     snakeCoords[0].x++;
     if (snakeCoords[0].x > COLS) {
@@ -30,14 +35,16 @@ void move_snake(int xDir, int yDir, int snakeLength, int* gameOver,
     }
   }
   print(0, snakeCoords);
-  // printf("\e[%iB\e[%iC·", snakeCoords[snakeLength].y,
-  //        snakeCoords[snakeLength].x);
-  // printf("\e[%iF", snakeCoords[snakeLength].y);
-  // fflush(stdout);
 }
 
-void change_and_print(int snakeLength, Coordinate* snakeCoords) {
-  for (int i = snakeLength - 1; i > 0; i--) {
+void change_and_print(int* snakeLength, Coordinate* snakeCoords, int appleX) {
+  if (appleX != -1) {
+    printf("\e[%iB\e[%iC·", snakeCoords[*snakeLength - 1].y,
+           snakeCoords[*snakeLength - 1].x);
+    printf("\e[%iF", snakeCoords[*snakeLength - 1].y);
+    fflush(stdout);
+  }
+  for (int i = *snakeLength - 1; i > 0; i--) {
     snakeCoords[i].x = snakeCoords[i - 1].x;
     snakeCoords[i].y = snakeCoords[i - 1].y;
     print(i, snakeCoords);

@@ -1,0 +1,10 @@
+{
+  "files.associations": {
+    "*.css": "tailwindcss",
+    "*.py": "python",
+    "*.md": "markdown",
+    "*.tsx": "typescriptreact",
+    "*.ts": "typescript",
+    "stdio.h": "c"
+  }
+}

@@ -68,7 +68,8 @@ int main() {
       //   fflush(stdout);
       // }
 
-      move_snake(xDir, yDir, snakeLength, &gameOver, snakeCoords);
+      move_snake(xDir, yDir, &snakeLength, &gameOver, snakeCoords,
+                 &appleCoords);
 
       usleep(SLEEP_TIME);
       read_keyboard(&xDir, &yDir, &quit);
