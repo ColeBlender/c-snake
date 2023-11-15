@@ -13,7 +13,8 @@ typedef struct {
 
 void init_terminal(struct termios* oldT);
 void render_table();
-void draw_apple(Coordinate* appleCoords);
+void draw_apple(Coordinate* appleCoords, Coordinate* snakeCoords,
+                int snakeLength);
 void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
                 Coordinate* snakeCoords, Coordinate* appleCoords);
 void read_keyboard(int* xDir, int* yDir, int* quit);

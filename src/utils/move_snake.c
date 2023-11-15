@@ -11,27 +11,41 @@ void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
       snakeCoords[0].y == appleCoords->y) {
     appleCoords->x = -1;
     *snakeLength = *snakeLength + 1;
+    //   if (++snakeLength == capacity) {
+    //     capacity *= 2;
+    //     Coordinate* temp =
+    //         realloc(snakeCoords, capacity * sizeof(Coordinate));
+    //     if (!temp) {
+    //       perror("Memory reallocation failed");
+    //       return 1;
+    //     }
+    //     snakeCoords = temp;
+    //   }
   }
   change_and_print(snakeLength, snakeCoords, appleCoords->x);
   if (xDir == 1) {
     snakeCoords[0].x++;
     if (snakeCoords[0].x > COLS) {
       *gameOver = 1;
+      *snakeLength = 1;
     }
   } else if (xDir == -1) {
     snakeCoords[0].x--;
     if (snakeCoords[0].x < 0) {
       *gameOver = 1;
+      *snakeLength = 1;
     }
   } else if (yDir == 1) {
     snakeCoords[0].y++;
     if (snakeCoords[0].y > ROWS) {
       *gameOver = 1;
+      *snakeLength = 1;
     }
   } else if (yDir == -1) {
     snakeCoords[0].y--;
     if (snakeCoords[0].y < 0) {
       *gameOver = 1;
+      *snakeLength = 1;
     }
   }
   print(0, snakeCoords);
