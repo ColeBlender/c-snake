@@ -6,8 +6,9 @@
 #include <unistd.h>
 
 void init_terminal(struct termios* oldT) {
-  // hide cursor
-  printf("\e[?25l");
+  printf("\e[?25l"); // hide the cursor
+  printf("\e[2J"); // clear the screen
+  printf("\e[H"); // move cursor to top left corner
 
   // set random seed
   srand(time(NULL));

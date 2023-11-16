@@ -36,13 +36,13 @@ int main() {
                  &score);
 
       usleep(SLEEP_TIME);
-      read_keyboard(&xDir, &yDir, &quit);
+      read_keyboard(&xDir, &yDir);
     }
 
     // the game is now done
     // only triggers if the game was lost
     if (!quit) {
-      show_game_over();
+      show_game_over(&quit);
     }
   }
 

@@ -20,7 +20,7 @@ void draw_apple(Coordinate* appleCoords, Coordinate* snakeCoords,
       }
     } while (!cleared);
     printf("\e[%iB\e[%iC❤︎", appleCoords->y, appleCoords->x);
-    printf("\e[%iF", appleCoords->y);
+    printf("\e[H");
     fflush(stdout);
   }
 }

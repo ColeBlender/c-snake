@@ -3,7 +3,7 @@
 #include <termios.h>
 #include <unistd.h>
 
-void read_keyboard(int* xDir, int* yDir, int* quit) {
+void read_keyboard(int* xDir, int* yDir) {
   // read keyboard
   struct timeval tv;
   fd_set fds;
@@ -44,8 +44,6 @@ void read_keyboard(int* xDir, int* yDir, int* quit) {
         }
         break;
       }
-    } else if (ch == 'q') {
-      *quit = 1;
     }
   }
 }

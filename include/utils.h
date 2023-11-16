@@ -18,8 +18,8 @@ void draw_apple(Coordinate* appleCoords, Coordinate* snakeCoords,
                 int snakeLength);
 void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
                 Coordinate* snakeCoords, Coordinate* appleCoords, int* score);
-void read_keyboard(int* xDir, int* yDir, int* quit);
-void show_game_over();
+void read_keyboard(int* xDir, int* yDir);
+void show_game_over(int* quit);
 void end_game(struct termios* oldT);
 
 #endif

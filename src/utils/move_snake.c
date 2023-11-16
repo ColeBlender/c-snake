@@ -52,7 +52,7 @@ void change_and_print(int* snakeLength, Coordinate* snakeCoords, int appleX) {
   if (appleX != -1) {
     printf("\e[%iB\e[%iC·", snakeCoords[*snakeLength - 1].y,
            snakeCoords[*snakeLength - 1].x);
-    printf("\e[%iF", snakeCoords[*snakeLength - 1].y);
+    printf("\e[H");
     fflush(stdout);
   }
   for (int i = *snakeLength - 1; i > 0; i--) {
@@ -64,6 +64,6 @@ void change_and_print(int* snakeLength, Coordinate* snakeCoords, int appleX) {
 
 void print(int i, Coordinate* snakeCoords) {
   printf("\e[%iB\e[%iC▓", snakeCoords[i].y, snakeCoords[i].x);
-  printf("\e[%iF", snakeCoords[i].y);
+  printf("\e[H");
   fflush(stdout);
 }
