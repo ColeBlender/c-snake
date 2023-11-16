@@ -1,6 +1,5 @@
 #include "utils.h"
 #include <stdio.h>
-#include <stdlib.h>
 #include <termios.h>
 #include <unistd.h>
 
@@ -10,12 +9,7 @@ int main() {
 
   int quit = 0;
   int snakeLength = 1;
-  int capacity = 1000;
-  Coordinate* snakeCoords = malloc(capacity * sizeof(Coordinate));
-  if (!snakeCoords) {
-    perror("Memory allocation failed");
-    return 1;
-  }
+  Coordinate snakeCoords[1000];
 
   // when game gets turned on
   // breaks out when user quits
@@ -25,8 +19,8 @@ int main() {
 
     // init game variables
     int gameOver = 0;
-    int xDir = 1;
-    int yDir = 0;
+    int score = -1;
+    int xDir = 1, yDir = 0;
     Coordinate appleCoords = {-1, -1};
     snakeCoords[0].x = COLS / 2;
     snakeCoords[0].y = ROWS / 2;
@@ -34,10 +28,12 @@ int main() {
     // this is the game loop
     // breaks out if user quits or loses
     while (!quit && !gameOver) {
+      check_score(&score, appleCoords.x);
+
       draw_apple(&appleCoords, snakeCoords, snakeLength);
 
-      move_snake(xDir, yDir, &snakeLength, &gameOver, snakeCoords,
-                 &appleCoords);
+      move_snake(xDir, yDir, &snakeLength, &gameOver, snakeCoords, &appleCoords,
+                 &score);
 
       usleep(SLEEP_TIME);
       read_keyboard(&xDir, &yDir, &quit);
@@ -50,7 +46,7 @@ int main() {
     }
   }
 
-  end_game(snakeCoords, &oldT);
+  end_game(&oldT);
 
   return 0;
 }

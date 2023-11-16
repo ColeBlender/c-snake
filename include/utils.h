@@ -13,12 +13,13 @@ typedef struct {
 
 void init_terminal(struct termios* oldT);
 void render_table();
+void check_score(int* score, int appleX);
 void draw_apple(Coordinate* appleCoords, Coordinate* snakeCoords,
                 int snakeLength);
 void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
-                Coordinate* snakeCoords, Coordinate* appleCoords);
+                Coordinate* snakeCoords, Coordinate* appleCoords, int* score);
 void read_keyboard(int* xDir, int* yDir, int* quit);
 void show_game_over();
-void end_game(Coordinate* snakeCoords, struct termios* oldT);
+void end_game(struct termios* oldT);
 
 #endif
