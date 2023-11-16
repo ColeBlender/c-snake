@@ -8,7 +8,7 @@ void draw_apple(Coordinate* appleCoords, Coordinate* snakeCoords,
     int cleared;
     do {
       appleCoords->x = (rand() % COLS) + 1;
-      appleCoords->y = (rand() % ROWS) + 1;
+      appleCoords->y = (rand() % ROWS) + 3;
 
       cleared = 1;
       for (int i = 0; i < snakeLength; i++) {
@@ -19,6 +19,7 @@ void draw_apple(Coordinate* appleCoords, Coordinate* snakeCoords,
         }
       }
     } while (!cleared);
+    printf("\e[H");
     printf("\e[%iB\e[%iC❤︎", appleCoords->y, appleCoords->x);
     printf("\e[H");
     fflush(stdout);
