@@ -1,4 +1,5 @@
 #include "utils.h"
+#include <math.h>
 #include <stdio.h>
 #include <termios.h>
 #include <unistd.h>
@@ -35,7 +36,9 @@ int main() {
       move_snake(xDir, yDir, &snakeLength, &gameOver, snakeCoords, &appleCoords,
                  &score);
 
-      usleep(SLEEP_TIME);
+      // adjust sleep time logarithmically based on score
+      // add 2 to score because score becomes -1 on loss
+      usleep(SLEEP_TIME - (log((score + 2) * 2) * 10000));
       read_keyboard(&xDir, &yDir);
     }
 
