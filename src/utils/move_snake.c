@@ -55,6 +55,7 @@ void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
 
 void change_and_print(int* snakeLength, Coordinate* snakeCoords, int appleX) {
   if (appleX != -1) {
+    printf("\e[H");
     printf("\e[%iB\e[%iC·", snakeCoords[*snakeLength - 1].y,
            snakeCoords[*snakeLength - 1].x);
     printf("\e[H");
@@ -68,6 +69,7 @@ void change_and_print(int* snakeLength, Coordinate* snakeCoords, int appleX) {
 }
 
 void print(int i, Coordinate* snakeCoords) {
+  printf("\e[H");
   printf("\e[%iB\e[%iC▓", snakeCoords[i].y, snakeCoords[i].x);
   printf("\e[H");
   fflush(stdout);
