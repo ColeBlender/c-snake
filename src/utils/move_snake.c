@@ -41,6 +41,15 @@ void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
       *score = -1;
     }
   }
+  for (int i = 1; i < *snakeLength; i++) {
+    if (snakeCoords[0].x == snakeCoords[i].x &&
+        snakeCoords[0].y == snakeCoords[i].y) {
+      *gameOver = 1;
+      *snakeLength = 1;
+      *score = -1;
+      break;
+    }
+  }
   print(0, snakeCoords);
 }
 

@@ -9,7 +9,7 @@ int main() {
 
   int quit = 0;
   int snakeLength = 1;
-  Coordinate snakeCoords[1000];
+  Coordinate snakeCoords[COLS * ROWS];
 
   // when game gets turned on
   // breaks out when user quits
