@@ -10,8 +10,8 @@ void show_game_over(int* quit) {
   char qMessage[] = " Press Q to quit! ";
 
   printf("\e[H");
-  printf("\e[%iB\e[%iC%s", ROWS / 2, COLS / 2 - (int)strlen(gMessage) / 2 + 1,
-         gMessage);
+  printf("\e[%iB\e[%iC%s", ROWS / 2 + 2,
+         COLS / 2 - (int)strlen(gMessage) / 2 + 1, gMessage);
   printf("\e[%iB\e[%iD%s", 2,
          (int)(strlen(gMessage) + (strlen(rMessage) - strlen(gMessage)) / 2),
          rMessage);

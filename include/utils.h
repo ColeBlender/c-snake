@@ -2,8 +2,8 @@
 #define UTILS_H
 #include <termios.h>
 
-#define COLS 40
-#define ROWS 20
+#define COLS 50
+#define ROWS 25
 #define SLEEP_TIME 1000000 * .1 // right side of expression is how many seconds
 
 typedef struct {
