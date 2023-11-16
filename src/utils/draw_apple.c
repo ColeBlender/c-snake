@@ -8,7 +8,7 @@ void draw_apple(Coordinate* appleCoords, Coordinate* snakeCoords,
     int cleared;
     do {
       appleCoords->x = (rand() % COLS) + 1;
-      appleCoords->y = (rand() % ROWS) + 3;
+      appleCoords->y = (rand() % ROWS) + 4;
 
       cleared = 1;
       for (int i = 0; i < snakeLength; i++) {

@@ -28,14 +28,14 @@ void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
     }
   } else if (yDir == 1) {
     // down
-    if (++snakeCoords[0].y > ROWS + 2) {
+    if (++snakeCoords[0].y > ROWS + 3) {
       *gameOver = 1;
       *snakeLength = 1;
       *score = -1;
     }
   } else if (yDir == -1) {
     // up
-    if (--snakeCoords[0].y < 3) {
+    if (--snakeCoords[0].y < 4) {
       *gameOver = 1;
       *snakeLength = 1;
       *score = -1;
