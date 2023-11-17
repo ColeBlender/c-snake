@@ -2,9 +2,8 @@
 #define UTILS_H
 #include <termios.h>
 
-#define COLS 50
-#define ROWS 25
-#define SLEEP_TIME 1000000 * .1 // right side of expression is how many seconds
+#define COLS 40
+#define ROWS 20
 
 typedef struct {
   int x;
@@ -18,6 +17,7 @@ void draw_apple(Coordinate* appleCoords, Coordinate* snakeCoords,
                 int snakeLength);
 void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
                 Coordinate* snakeCoords, Coordinate* appleCoords, int* score);
+int calc_sleep_time(int score);
 void read_keyboard(int* xDir, int* yDir);
 void show_game_over(int* quit);
 void end_game(struct termios* oldT);

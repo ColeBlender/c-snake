@@ -38,7 +38,8 @@ int main() {
 
       // adjust sleep time logarithmically based on score
       // add 2 to score because score becomes -1 on loss
-      usleep(SLEEP_TIME - (log((score + 2) * 2) * 10000));
+      int sleepTime = calc_sleep_time(score);
+      usleep(sleepTime);
       read_keyboard(&xDir, &yDir);
     }
 
