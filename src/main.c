@@ -33,8 +33,8 @@ int main() {
 
       draw_apple(&appleCoords, snakeCoords, snakeLength);
 
-      move_snake(xDir, yDir, &snakeLength, &gameOver, snakeCoords, &appleCoords,
-                 &score);
+      move_snake(xDir, yDir, &snakeLength, &gameOver, snakeCoords,
+                 &appleCoords);
 
       // adjust sleep time logarithmically based on score
       // add 2 to score because score becomes -1 on loss
@@ -46,7 +46,7 @@ int main() {
     // the game is now done
     // only triggers if the game was lost
     if (!quit) {
-      show_game_over(&quit);
+      show_game_over(&quit, &score);
     }
   }
 

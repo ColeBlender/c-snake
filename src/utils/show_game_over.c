@@ -4,7 +4,7 @@
 #include <termios.h>
 #include <unistd.h>
 
-void show_game_over(int* quit) {
+void show_game_over(int* quit, int* score) {
   char gMessage[] = " GAME OVER! ";
   char rMessage[] = " Press R to play again! ";
   char qMessage[] = " Press Q to quit! ";
@@ -25,8 +25,10 @@ void show_game_over(int* quit) {
   do {
     ch = getchar();
     if (ch == 'r' || ch == 'R') {
+      *score = -1;
       break;
     } else if (ch == 'q' || ch == 'Q') {
+      *score = -1;
       *quit = 1;
       break;
     }

@@ -5,7 +5,7 @@ void change_and_print(int* snakeLength, Coordinate* snakeCoords, int appleX);
 void print(int i, Coordinate* snakeCoords);
 
 void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
-                Coordinate* snakeCoords, Coordinate* appleCoords, int* score) {
+                Coordinate* snakeCoords, Coordinate* appleCoords) {
   if (snakeCoords[0].x == appleCoords->x &&
       snakeCoords[0].y == appleCoords->y) {
     appleCoords->x = -1;
@@ -17,28 +17,24 @@ void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
     if (++snakeCoords[0].x > COLS) {
       *gameOver = 1;
       *snakeLength = 1;
-      *score = -1;
     }
   } else if (xDir == -1) {
     // left
     if (--snakeCoords[0].x < 0) {
       *gameOver = 1;
       *snakeLength = 1;
-      *score = -1;
     }
   } else if (yDir == 1) {
     // down
     if (++snakeCoords[0].y > ROWS + 3) {
       *gameOver = 1;
       *snakeLength = 1;
-      *score = -1;
     }
   } else if (yDir == -1) {
     // up
     if (--snakeCoords[0].y < 4) {
       *gameOver = 1;
       *snakeLength = 1;
-      *score = -1;
     }
   }
   for (int i = 1; i < *snakeLength; i++) {
@@ -46,7 +42,6 @@ void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
         snakeCoords[0].y == snakeCoords[i].y) {
       *gameOver = 1;
       *snakeLength = 1;
-      *score = -1;
       break;
     }
   }
