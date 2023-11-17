@@ -15,6 +15,11 @@ void render_table() {
 
   char* highScore = strchr(firstLine, ' ');
   highScore++;
+  // Remove \n if it's at the end of highScore
+  size_t len = strlen(highScore);
+  if (len > 0 && highScore[len - 1] == '\n') {
+    highScore[len - 1] = '\0';
+  }
 
   // high score
   printf("\e[H");

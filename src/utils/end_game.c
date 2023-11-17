@@ -5,6 +5,7 @@
 
 void end_game(struct termios* oldT) {
   // reshow cursor
+  printf("\e[H");
   printf("\e[?25h");
 
   // reset terminal settings

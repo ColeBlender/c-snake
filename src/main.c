@@ -46,7 +46,7 @@ int main() {
     // the game is now done
     // only triggers if the game was lost
     if (!quit) {
-      show_game_over(&quit, &score);
+      show_game_over(&quit, &score, &oldT);
     }
   }
 
