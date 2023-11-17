@@ -2,7 +2,7 @@
 #define UTILS_H
 #include <termios.h>
 
-#define COLS 40
+#define COLS 20
 #define ROWS 20
 
 typedef struct {

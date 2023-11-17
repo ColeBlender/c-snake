@@ -5,13 +5,13 @@
 #include <unistd.h>
 
 void show_game_over(int* quit, int* score) {
-  char gMessage[] = " GAME OVER! ";
-  char rMessage[] = " Press R to play again! ";
-  char qMessage[] = " Press Q to quit! ";
+  char gMessage[] = "GAME OVER!";
+  char rMessage[] = "Press R to play again!";
+  char qMessage[] = "Press Q to quit!";
 
   printf("\e[H");
-  printf("\e[%iB\e[%iC%s", ROWS / 2 + 2,
-         COLS / 2 - (int)strlen(gMessage) / 2 + 1, gMessage);
+  printf("\e[%iB\e[%iC%s", ROWS / 2 + 3, COLS - (int)strlen(gMessage) / 2 + 1,
+         gMessage);
   printf("\e[%iB\e[%iD%s", 2,
          (int)(strlen(gMessage) + (strlen(rMessage) - strlen(gMessage)) / 2),
          rMessage);

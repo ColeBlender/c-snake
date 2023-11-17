@@ -23,7 +23,7 @@ int main() {
     int score = -1;
     int xDir = 1, yDir = 0;
     Coordinate appleCoords = {-1, -1};
-    snakeCoords[0].x = COLS / 2;
+    snakeCoords[0].x = COLS;
     snakeCoords[0].y = ROWS / 2;
 
     // this is the game loop
