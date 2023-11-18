@@ -1,5 +1,4 @@
 #include "utils.h"
-#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include <termios.h>
@@ -72,7 +71,8 @@ static int file_func(int* score, struct termios* oldT) {
 
   while (fgets(line, sizeof(line), file) && scoreCount < MAX_SCORES) {
     ScoreEntry entry;
-    if (sscanf(line, "%*d. %d (%4s)", &entry.score, entry.name) == 2) {
+    if (sscanf(line, "%*d. %d (%s)", &entry.score, entry.name) == 2) {
+      entry.name[strlen(entry.name) - 1] = '\0';
       scores[scoreCount++] = entry;
     }
   }
@@ -96,18 +96,14 @@ static int file_func(int* score, struct termios* oldT) {
     printf("\e[H");
     printf("\e[%iB\e[%iC%s", ROWS / 2 + 5,
            COLS - (int)strlen(highScoreMessage) / 2 + 2, highScoreMessage);
+    // move cursor below highScoreMessage
+    printf("\e[H");
+    printf("\e[%iB\e[%iC      ", ROWS / 2 + 7, COLS - 6 / 2 + 2);
+    printf("\e[%iD", 5);
+
+    tcsetattr(STDIN_FILENO, TCSANOW, oldT);
+    printf("\e[?25h"); // show the cursor
     fflush(stdout);
-
-    // tcsetattr(STDIN_FILENO, TCSANOW, oldT);
-    // printf("\e[?25h"); // show the cursor
-
-    // printf("\e[?25l"); // hide the cursor
-
-    // switch terminal to non-canonical mode, disable echo
-    // tcgetattr(STDIN_FILENO, oldT);
-    // struct termios newT = *oldT;
-    // newT.c_lflag &= ~(ICANON | ECHO);
-    // tcsetattr(STDIN_FILENO, TCSANOW, &newT);
 
     if (scanf("%4s", newName) != 1) {
       perror("Error reading name");
@@ -116,9 +112,7 @@ static int file_func(int* score, struct termios* oldT) {
 
     newName[MAX_NAME_LENGTH] = '\0';
 
-    for (int i = 0; newName[i] != '\0'; i++) {
-      newName[i] = toupper(newName[i]);
-    }
+    init_terminal(oldT, 0);
 
     // Insert new score
     if (position == -1) {
@@ -130,7 +124,7 @@ static int file_func(int* score, struct termios* oldT) {
         scores[i] = scores[i - 1];
       }
     }
-    scores[position].score = *score;
+    scores[position].score = *score == -1 ? 0 : *score;
     strncpy(scores[position].name, newName, MAX_NAME_LENGTH);
 
     // Write updated scores back to file

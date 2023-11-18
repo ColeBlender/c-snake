@@ -10,7 +10,7 @@ typedef struct {
   int y;
 } Coordinate;
 
-void init_terminal(struct termios* oldT);
+void init_terminal(struct termios* oldT, int start);
 void render_table();
 void check_score(int* score, int appleX);
 void draw_apple(Coordinate* appleCoords, Coordinate* snakeCoords,

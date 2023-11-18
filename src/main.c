@@ -6,7 +6,7 @@
 
 int main() {
   struct termios oldT;
-  init_terminal(&oldT);
+  init_terminal(&oldT, 1);
 
   int quit = 0;
   int snakeLength = 1;
