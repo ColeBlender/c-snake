@@ -1,4 +1,5 @@
 #include "utils.h"
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include <termios.h>
@@ -104,7 +105,7 @@ static int file_func(int* score, struct termios* oldT) {
     printf("\e[?25h"); // show the cursor
     fflush(stdout);
 
-    char newName[5] = {0}; // Buffer for the name
+    char newName[5]; // Buffer for the name
     int count = 0; // Count of entered characters
     int ch; // Character read from input
 
@@ -118,13 +119,21 @@ static int file_func(int* score, struct termios* oldT) {
         continue;
       }
 
+      if (ch == ' ' ||
+          ch < 32) { // Ignore space character and control characters
+        continue;
+      }
+
+      // Convert to uppercase
+      ch = toupper(ch);
+
       if (count < 4) {
         newName[count++] = (char)ch;
         printf("%c", ch); // Echo the character
       }
     }
 
-    newName[MAX_NAME_LENGTH] = '\0';
+    newName[count] = '\0';
 
     init_terminal(oldT, 0);
 
@@ -139,7 +148,7 @@ static int file_func(int* score, struct termios* oldT) {
       }
     }
     scores[position].score = *score == -1 ? 0 : *score;
-    strncpy(scores[position].name, newName, MAX_NAME_LENGTH);
+    strcpy(scores[position].name, newName);
 
     // Write updated scores back to file
     file = fopen("high-scores.txt", "w");
