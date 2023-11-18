@@ -13,8 +13,12 @@ void render_table() {
   fgets(firstLine, sizeof(firstLine), file);
   fclose(file);
 
-  char* highScore = strchr(firstLine, ' ');
-  highScore++;
+  char* highScore = "0";
+  char* test = strchr(firstLine, ' ');
+  if (test) {
+    highScore = test;
+    highScore++;
+  }
   // Remove \n if it's at the end of highScore
   size_t len = strlen(highScore);
   if (len > 0 && highScore[len - 1] == '\n') {

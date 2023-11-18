@@ -126,7 +126,9 @@ static int file_func(int* score, struct termios* oldT) {
     }
 
     for (int i = MAX_SCORES - 1; i >= position; i--) {
-      scores[i] = scores[i - 1];
+      if (i != 0) {
+        scores[i] = scores[i - 1];
+      }
     }
     scores[position].score = *score;
     strncpy(scores[position].name, newName, MAX_NAME_LENGTH);
