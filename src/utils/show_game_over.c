@@ -101,13 +101,27 @@ static int file_func(int* score, struct termios* oldT) {
     printf("\e[%iB\e[%iC      ", ROWS / 2 + 7, COLS - 6 / 2 + 2);
     printf("\e[%iD", 5);
 
-    tcsetattr(STDIN_FILENO, TCSANOW, oldT);
     printf("\e[?25h"); // show the cursor
     fflush(stdout);
 
-    if (scanf("%4s", newName) != 1) {
-      perror("Error reading name");
-      return 1;
+    char newName[5] = {0}; // Buffer for the name
+    int count = 0; // Count of entered characters
+    int ch; // Character read from input
+
+    // Read characters one by one until Enter is pressed
+    while ((ch = getchar()) != '\n' && ch != EOF) {
+      if (ch == '\b' || ch == 127) { // Handle backspace
+        if (count > 0) {
+          printf("\b \b"); // Move back, print space, move back again
+          count--;
+        }
+        continue;
+      }
+
+      if (count < 4) {
+        newName[count++] = (char)ch;
+        printf("%c", ch); // Echo the character
+      }
     }
 
     newName[MAX_NAME_LENGTH] = '\0';

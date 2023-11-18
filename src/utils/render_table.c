@@ -27,7 +27,7 @@ void render_table() {
 
   // high score
   printf("\e[H");
-  printf("\e[%iB\e[%iC                             ", 0, 0);
+  printf("\e[%iB\e[%iC                                   ", 0, 0);
   printf("\e[H");
   printf("\e[%iB\e[%iC High Score: %s ", 0,
          COLS - (14 + (int)strlen(highScore)) / 2, highScore);
