@@ -1,21 +1,21 @@
 #include "utils.h"
 #include <stdio.h>
+#include <unistd.h>
 
-static void change_and_print(int* snakeLength, Coordinate* snakeCoords,
-                             int appleX);
-static void print(int i, Coordinate* snakeCoords);
+static void print_tail(int* snakeLength, Coordinate* snakeCoords, int appleX);
+static void print_snake_piece(int i, Coordinate* snakeCoords);
 
 //
 //
 //
 void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
                 Coordinate* snakeCoords, Coordinate* appleCoords) {
+  // check if got apple
   if (snakeCoords[0].x == appleCoords->x &&
       snakeCoords[0].y == appleCoords->y) {
     appleCoords->x = -1;
-    *snakeLength = *snakeLength + 1;
   }
-  change_and_print(snakeLength, snakeCoords, appleCoords->x);
+  print_tail(snakeLength, snakeCoords, appleCoords->x);
   if (xDir == 1) {
     // right
     snakeCoords[0].x += 2;
@@ -26,7 +26,7 @@ void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
   } else if (xDir == -1) {
     // left
     snakeCoords[0].x -= 2;
-    if (snakeCoords[0].x < 0) {
+    if (snakeCoords[0].x <= 0) {
       *gameOver = 1;
       *snakeLength = 1;
     }
@@ -44,6 +44,7 @@ void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
     }
   }
   if (!*gameOver) {
+    // check if run into self
     for (int i = 1; i < *snakeLength; i++) {
       if (snakeCoords[0].x == snakeCoords[i].x &&
           snakeCoords[0].y == snakeCoords[i].y) {
@@ -53,32 +54,39 @@ void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
       }
     }
   }
-  print(0, snakeCoords);
+  // print head
+  print_snake_piece(0, snakeCoords);
 }
 
 //
 //
 //
-static void change_and_print(int* snakeLength, Coordinate* snakeCoords,
-                             int appleX) {
-  if (appleX != -1) {
+static void print_tail(int* snakeLength, Coordinate* snakeCoords, int appleX) {
+  if (appleX == -1) {
+    // just got apple so increase snakeLength
+    *snakeLength = *snakeLength + 1;
+  } else {
+    // didn't just get apple so replace last part of tail with black
     printf("\e[H");
     printf("\e[%iB\e[%iC⬛️", snakeCoords[*snakeLength - 1].y,
            snakeCoords[*snakeLength - 1].x);
     fflush(stdout);
   }
+  // print tail everywhere where the previous snake was
   for (int i = *snakeLength - 1; i > 0; i--) {
     snakeCoords[i].x = snakeCoords[i - 1].x;
     snakeCoords[i].y = snakeCoords[i - 1].y;
-    print(i, snakeCoords);
+    print_snake_piece(i, snakeCoords);
   }
 }
 
 //
 //
 //
-static void print(int i, Coordinate* snakeCoords) {
+static void print_snake_piece(int i, Coordinate* snakeCoords) {
+  // if runs into left wall it fucks up so need this
+  int snakeX = snakeCoords[i].x == 0 ? -2 : snakeCoords[i].x;
   printf("\e[H");
-  printf("\e[%iB\e[%iC🟩", snakeCoords[i].y, snakeCoords[i].x);
+  printf("\e[%iB\e[%iC🟩", snakeCoords[i].y, snakeX);
   fflush(stdout);
 }

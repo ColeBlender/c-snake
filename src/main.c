@@ -24,7 +24,7 @@ int main() {
     int xDir = 1, yDir = 0;
     Coordinate appleCoords = {-1, -1};
     snakeCoords[0].x = COLS;
-    snakeCoords[0].y = ROWS / 2;
+    snakeCoords[0].y = ROWS / 2 + 4;
 
     // this is the game loop
     // breaks out if user quits or loses
