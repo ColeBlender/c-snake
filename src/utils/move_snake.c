@@ -5,6 +5,9 @@ static void change_and_print(int* snakeLength, Coordinate* snakeCoords,
                              int appleX);
 static void print(int i, Coordinate* snakeCoords);
 
+//
+//
+//
 void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
                 Coordinate* snakeCoords, Coordinate* appleCoords) {
   if (snakeCoords[0].x == appleCoords->x &&
@@ -53,6 +56,9 @@ void move_snake(int xDir, int yDir, int* snakeLength, int* gameOver,
   print(0, snakeCoords);
 }
 
+//
+//
+//
 static void change_and_print(int* snakeLength, Coordinate* snakeCoords,
                              int appleX) {
   if (appleX != -1) {
@@ -68,6 +74,9 @@ static void change_and_print(int* snakeLength, Coordinate* snakeCoords,
   }
 }
 
+//
+//
+//
 static void print(int i, Coordinate* snakeCoords) {
   printf("\e[H");
   printf("\e[%iB\e[%iC🟩", snakeCoords[i].y, snakeCoords[i].x);

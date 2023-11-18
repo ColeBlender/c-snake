@@ -29,12 +29,12 @@ int main() {
     // this is the game loop
     // breaks out if user quits or loses
     while (!quit && !gameOver) {
-      check_score(&score, appleCoords.x);
-
       draw_apple(&appleCoords, snakeCoords, snakeLength);
 
       move_snake(xDir, yDir, &snakeLength, &gameOver, snakeCoords,
                  &appleCoords);
+
+      check_score(&score, appleCoords.x);
 
       // adjust sleep time logarithmically based on score
       // add 2 to score because score becomes -1 on loss
