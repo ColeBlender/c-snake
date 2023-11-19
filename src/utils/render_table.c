@@ -29,13 +29,12 @@ void render_table() {
   printf("\e[H");
   printf("\e[%iB\e[%iC                                   ", 0, 0);
   printf("\e[H");
-  printf("\e[%iB\e[%iC High Score: %s ", 0,
-         COLS - (14 + (int)strlen(highScore)) / 2, highScore);
+  printf("\e[%iB\e[%iCHigh Score: %s", 0, COLS - 8, highScore);
   printf(" \n");
   printf("\e[F");
 
   // score board
-  printf("\e[%iB\e[%iC Score: 0 ", 1, COLS - 4);
+  printf("\e[%iB\e[%iCScore: 0", 1, COLS - 2);
   printf(" \n\n\n");
   printf("\e[F");
 

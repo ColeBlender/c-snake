@@ -118,15 +118,12 @@ static int file_func(int* score, struct termios* oldT) {
         }
         continue;
       }
-
       if (ch == ' ' ||
           ch < 32) { // Ignore space character and control characters
         continue;
       }
-
       // Convert to uppercase
       ch = toupper(ch);
-
       if (count < 4) {
         newName[count++] = (char)ch;
         printf("%c", ch); // Echo the character
@@ -168,8 +165,8 @@ static int file_func(int* score, struct termios* oldT) {
     fclose(file);
 
     printf("\e[H");
-    printf("\e[%iB\e[%iC⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️", ROWS / 2 + 5,
-           COLS - (int)strlen(highScoreMessage) / 2 + 1);
+    printf("\e[%iB\e[%iC⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️", ROWS / 2 + 5,
+           COLS - (int)strlen(highScoreMessage) / 2);
     fflush(stdout);
   }
 

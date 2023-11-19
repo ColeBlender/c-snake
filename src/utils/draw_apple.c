@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 void draw_apple(Coordinate* appleCoords, Coordinate* snakeCoords,
-                int snakeLength) {
+                int snakeLength, int startMessageGone) {
   if (appleCoords->x < 0) {
     int cleared;
     do {
@@ -16,6 +16,13 @@ void draw_apple(Coordinate* appleCoords, Coordinate* snakeCoords,
             appleCoords->y == snakeCoords[i].y) {
           cleared = 0;
           break;
+        }
+      }
+      if (!startMessageGone) {
+        // index of P in startMessage and index of t in startMessage
+        if (appleCoords->x >= 10 && appleCoords->x <= 34 &&
+            appleCoords->y == ROWS / 2 + 2) {
+          cleared = 0;
         }
       }
     } while (!cleared);
