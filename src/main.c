@@ -21,7 +21,7 @@ int main() {
     // init game variables
     int gameOver = 0;
     int score = -1;
-    int xDir = 1, yDir = 0;
+    int xDir = 0, yDir = 0;
     Coordinate appleCoords = {-1, -1};
     snakeCoords[0].x = COLS;
     snakeCoords[0].y = ROWS / 2 + 4;
