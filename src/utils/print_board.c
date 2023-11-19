@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void render_table() {
+void print_board() {
   FILE* file;
   char firstLine[100];
   file = fopen("high-scores.txt", "r");

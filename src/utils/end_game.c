@@ -4,9 +4,8 @@
 #include <unistd.h>
 
 void end_game(struct termios* oldT) {
-  // reshow cursor
-  printf("\e[H");
-  printf("\e[?25h");
+  printf("\e[H"); // move cursor to top of screen
+  printf("\e[?25h"); // reshow cursor
 
   // reset terminal settings
   tcsetattr(STDIN_FILENO, TCSANOW, oldT);

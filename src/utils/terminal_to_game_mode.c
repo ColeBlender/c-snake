@@ -5,13 +5,13 @@
 #include <time.h>
 #include <unistd.h>
 
-void init_terminal(struct termios* oldT, int start) {
+void terminal_to_game_mode(struct termios* oldT, int start) {
   printf("\e[?25l"); // hide the cursor
 
+  // only do this when game is first started
   if (start) {
     printf("\e[2J"); // clear the screen
-    // set random seed
-    srand(time(NULL));
+    srand(time(NULL)); // set random seed
   }
 
   // switch terminal to non-canonical mode, disable echo

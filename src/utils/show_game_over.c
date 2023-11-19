@@ -132,7 +132,7 @@ static int file_func(int* score, struct termios* oldT) {
 
     newName[count] = '\0';
 
-    init_terminal(oldT, 0);
+    terminal_to_game_mode(oldT, 0);
 
     // Insert new score
     if (position == -1) {
