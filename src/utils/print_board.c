@@ -30,7 +30,9 @@ void print_board() {
   // clear high score from last game
   printf("\e[H\e[%iB\e[%iC                                   ", 0, 0);
   // print high score
-  printf("\e[H\e[%iB\e[%iCHigh Score: %s\n", 0, COLS - 8, highScore);
+  if (strlen(highScore) > 1) {
+    printf("\e[H\e[%iB\e[%iCHigh Score: %s", 0, COLS - 8, highScore);
+  }
 
   // print score board
   printf("\e[F\e[%iB\e[%iCScore: 0\n\n\n", 1, COLS - 2);
