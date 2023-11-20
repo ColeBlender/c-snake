@@ -67,8 +67,7 @@ static void print_tail(int* snakeLength, Coordinate* snakeCoords, int appleX) {
     *snakeLength = *snakeLength + 1;
   } else {
     // didn't just get apple so replace last part of tail with black
-    printf("\e[H");
-    printf("\e[%iB\e[%iC⬛️", snakeCoords[*snakeLength - 1].y,
+    printf("\e[H\e[%iB\e[%iC⬛️", snakeCoords[*snakeLength - 1].y,
            snakeCoords[*snakeLength - 1].x);
     fflush(stdout);
   }
@@ -86,7 +85,6 @@ static void print_tail(int* snakeLength, Coordinate* snakeCoords, int appleX) {
 static void print_snake_piece(int i, Coordinate* snakeCoords) {
   // if runs into left wall it fucks up so need this
   int snakeX = snakeCoords[i].x == 0 ? -2 : snakeCoords[i].x;
-  printf("\e[H");
-  printf("\e[%iB\e[%iC🟩", snakeCoords[i].y, snakeX);
+  printf("\e[H\e[%iB\e[%iC🟩", snakeCoords[i].y, snakeX);
   fflush(stdout);
 }

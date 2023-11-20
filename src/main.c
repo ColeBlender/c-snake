@@ -28,8 +28,7 @@ int main() {
 
     // print startMessage
     char startMessage[] = " Press any arrow to start ";
-    printf("\e[H");
-    printf("\e[%iB\e[%iC%s", ROWS / 2 + 2,
+    printf("\e[H\e[%iB\e[%iC%s", ROWS / 2 + 2,
            COLS + 2 - (int)strlen(startMessage) / 2, startMessage);
 
     // this is the game loop

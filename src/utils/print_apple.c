@@ -36,8 +36,7 @@ void print_apple(Coordinate* appleCoords, Coordinate* snakeCoords,
     }
 
     // print new apple
-    printf("\e[H");
-    printf("\e[%iB\e[%iC🍎", appleCoords->y, appleCoords->x);
+    printf("\e[H\e[%iB\e[%iC🍎", appleCoords->y, appleCoords->x);
     fflush(stdout);
   }
 }

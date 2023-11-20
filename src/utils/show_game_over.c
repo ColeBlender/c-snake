@@ -5,15 +5,15 @@
 #include <termios.h>
 #include <unistd.h>
 
-#define MAX_SCORES 10
-#define MAX_NAME_LENGTH 4
+static const int MAX_SCORES = 10;
+static const int MAX_NAME_LENGTH = 4;
 
 typedef struct {
   int score;
   char name[MAX_NAME_LENGTH + 1]; // +1 for null terminator
 } ScoreEntry;
 
-static int file_func(int* score, struct termios* oldT);
+static int check_if_top_10_and_type_name(int* score, struct termios* oldT);
 
 //
 //
@@ -24,41 +24,40 @@ void show_game_over(int* quit, int* score, struct termios* oldT) {
   char qMessage[] = " Press Q to quit! ";
 
   // print gMessage
-  printf("\e[H");
-  printf("\e[%iB\e[%iC%s", ROWS / 2 + 3, COLS - (int)strlen(gMessage) / 2 + 2,
-         gMessage);
-  fflush(stdout);
+  printf("\e[H\e[%iB\e[%iC%s", ROWS / 2 + 3,
+         COLS - (int)strlen(gMessage) / 2 + 2, gMessage);
 
-  // see if top 10 score and prompt user to type name
-  file_func(score, oldT);
+  // see if top 10 score and prompt user to type name if so
+  check_if_top_10_and_type_name(score, oldT);
 
-  // print rMessage and qMessage
-  printf("\e[H");
-  printf("\e[%iB\e[%iC%s", ROWS / 2 + 5, COLS - (int)strlen(rMessage) / 2 + 2,
-         rMessage);
+  // print rMessage
+  printf("\e[H\e[%iB\e[%iC%s", ROWS / 2 + 5,
+         COLS - (int)strlen(rMessage) / 2 + 2, rMessage);
+  // print qMessage
   printf("\e[%iB\e[%iD%s", 2,
          (int)(strlen(rMessage) + (strlen(qMessage) - strlen(rMessage)) / 2),
          qMessage);
   fflush(stdout);
 
+  // infinite loop, exits only on 'r' or 'q'
   int ch;
-  do {
+  while (1) {
     ch = getchar();
     if (ch == 'r' || ch == 'R') {
-      *score = -1;
+      *score = 0;
       break;
     } else if (ch == 'q' || ch == 'Q') {
-      *score = -1;
+      *score = 0;
       *quit = 1;
       break;
     }
-  } while (1); // infinite loop, exits only on 'r' or 'q'
+  }
 }
 
 //
 //
 //
-static int file_func(int* score, struct termios* oldT) {
+static int check_if_top_10_and_type_name(int* score, struct termios* oldT) {
   FILE* file;
   char line[100];
   ScoreEntry scores[MAX_SCORES];
@@ -81,7 +80,7 @@ static int file_func(int* score, struct termios* oldT) {
 
   char newName[MAX_NAME_LENGTH + 1];
 
-  // Check if the new score is a top score
+  // check if the new score is a top score
   int position = -1;
   for (int i = 0; i < scoreCount; i++) {
     if (*score > scores[i].score) {
@@ -94,39 +93,46 @@ static int file_func(int* score, struct termios* oldT) {
     char highScoreMessage[] = " Great Score! Enter Name: ";
 
     // print highScoreMessage
-    printf("\e[H");
-    printf("\e[%iB\e[%iC%s", ROWS / 2 + 5,
+    printf("\e[H\e[%iB\e[%iC%s", ROWS / 2 + 5,
            COLS - (int)strlen(highScoreMessage) / 2 + 2, highScoreMessage);
-    // move cursor below highScoreMessage
-    printf("\e[H");
-    printf("\e[%iB\e[%iC      ", ROWS / 2 + 7, COLS - 6 / 2 + 2);
+    // move cursor below highScoreMessage and clear space
+    printf("\e[H\e[%iB\e[%iC      ", ROWS / 2 + 7, COLS - 6 / 2 + 2);
+    // move cursor to beginning of space
     printf("\e[%iD", 5);
-
-    printf("\e[?25h"); // show the cursor
+    // show the cursor
+    printf("\e[?25h");
     fflush(stdout);
 
-    char newName[5]; // Buffer for the name
-    int count = 0; // Count of entered characters
-    int ch; // Character read from input
+    char newName[5]; // buffer for the name
+    int count = 0; // count of entered characters
+    int ch; // character read from input
 
-    // Read characters one by one until Enter is pressed
-    while ((ch = getchar()) != '\n' && ch != EOF) {
-      if (ch == '\b' || ch == 127) { // Handle backspace
+    // read characters one by one until Enter is pressed
+    while (1) {
+      ch = getchar();
+      // check if enter is pressed and at least one character is present
+      if (ch == '\n' && count > 0) {
+        break;
+      }
+      if (ch == EOF) { // handle end-of-file character
+        break;
+      }
+      if (ch == '\b' || ch == 127) { // handle backspace
         if (count > 0) {
-          printf("\b \b"); // Move back, print space, move back again
+          printf("\b \b"); // move back, print space, move back again
           count--;
         }
         continue;
       }
       if (ch == ' ' ||
-          ch < 32) { // Ignore space character and control characters
+          ch < 32) { // ignore space character and control characters
         continue;
       }
-      // Convert to uppercase
+      // convert to uppercase
       ch = toupper(ch);
       if (count < 4) {
         newName[count++] = (char)ch;
-        printf("%c", ch); // Echo the character
+        printf("%c", ch); // echo the character
       }
     }
 
@@ -134,7 +140,6 @@ static int file_func(int* score, struct termios* oldT) {
 
     terminal_to_game_mode(oldT, 0);
 
-    // Insert new score
     if (position == -1) {
       position = scoreCount;
     }
@@ -144,10 +149,10 @@ static int file_func(int* score, struct termios* oldT) {
         scores[i] = scores[i - 1];
       }
     }
-    scores[position].score = *score == -1 ? 0 : *score;
+    scores[position].score = *score;
     strcpy(scores[position].name, newName);
 
-    // Write updated scores back to file
+    // write updated scores back to file
     file = fopen("high-scores.txt", "w");
     if (!file) {
       perror("Error opening file for writing");
@@ -164,8 +169,7 @@ static int file_func(int* score, struct termios* oldT) {
 
     fclose(file);
 
-    printf("\e[H");
-    printf("\e[%iB\e[%iC⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️", ROWS / 2 + 5,
+    printf("\e[H\e[%iB\e[%iC⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️", ROWS / 2 + 5,
            COLS - (int)strlen(highScoreMessage) / 2);
     fflush(stdout);
   }

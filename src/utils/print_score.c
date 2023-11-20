@@ -8,8 +8,7 @@ void print_score(int* score, int appleX) {
     *score = *score + 1;
 
     // print new score at top
-    printf("\e[H");
-    printf("\e[%iB\e[%iC Score: %d ", 2, COLS - 3, *score);
+    printf("\e[H\e[%iB\e[%iC Score: %d ", 2, COLS - 3, *score);
     fflush(stdout);
   }
 }

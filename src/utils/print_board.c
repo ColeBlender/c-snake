@@ -4,6 +4,7 @@
 #include <string.h>
 
 void print_board() {
+  // get firstLine from high-scores.txt
   FILE* file;
   char firstLine[100];
   file = fopen("high-scores.txt", "r");
@@ -13,54 +14,41 @@ void print_board() {
   fgets(firstLine, sizeof(firstLine), file);
   fclose(file);
 
+  // set highScore
   char* highScore = "0";
-  char* test = strchr(firstLine, ' ');
-  if (test) {
-    highScore = test;
-    highScore++;
+  char* highScoreSafe = strchr(firstLine, ' ');
+  if (highScoreSafe) {
+    highScore = ++highScoreSafe;
   }
-  // Remove \n if it's at the end of highScore
+
+  // remove \n if it's at the end of highScore
   size_t len = strlen(highScore);
   if (len > 0 && highScore[len - 1] == '\n') {
     highScore[len - 1] = '\0';
   }
 
-  // high score
-  printf("\e[H");
-  printf("\e[%iB\e[%iC                                   ", 0, 0);
-  printf("\e[H");
-  printf("\e[%iB\e[%iCHigh Score: %s", 0, COLS - 8, highScore);
-  printf(" \n");
+  // clear high score from last game
+  printf("\e[H\e[%iB\e[%iC                                   ", 0, 0);
+  // print high score
+  printf("\e[H\e[%iB\e[%iCHigh Score: %s\n", 0, COLS - 8, highScore);
+
+  // print score board
+  printf("\e[F\e[%iB\e[%iCScore: 0\n\n\n", 1, COLS - 2);
+
+  // print board
   printf("\e[F");
-
-  // score board
-  printf("\e[%iB\e[%iCScore: 0", 1, COLS - 2);
-  printf(" \n\n\n");
-  printf("\e[F");
-
-  // top row
-  printf("⬜️");
-  for (int i = 0; i < COLS; i++) {
+  for (int i = 0; i < ROWS + 2; i++) {
+    // left border
     printf("⬜️");
-  }
-  printf("⬜️\n");
-
-  // middle rows
-  for (int j = 0; j < ROWS; j++) {
-    printf("⬜️");
-    for (int i = 0; i < COLS; i++) {
-      printf("⬛️");
+    for (int j = 0; j < COLS; j++) {
+      // if top or bottom border print white otherwise print black
+      if (i == 0 || i == ROWS + 1) {
+        printf("⬜️");
+      } else {
+        printf("⬛️");
+      }
     }
+    // right border
     printf("⬜️\n");
   }
-
-  // bottom row
-  printf("⬜️");
-  for (int i = 0; i < COLS; i++) {
-    printf("⬜️");
-  }
-  printf("⬜️\n");
-
-  // move cursor back to top
-  printf("\e[%iA", ROWS + 2);
 }
